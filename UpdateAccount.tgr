@@ -1,0 +1,12 @@
+// Use case: If Account Industry is changed from Banking to Chemicals then related Contact should get deleted
+trigger UpdateAccount on Account (After update) {
+    set <id> acId=new set<id>();
+    for(Account acc: trigger.New){
+        Account oldRec=trigger.oldMap.get(acc.Id);
+        if(acc.Industry == 'Chemicals' && oldRec.Industry=='Banking'){
+            acId.add(acc.Id);
+        }
+    }
+    List<Contact> con=[select id,name from Contact where AccountId IN: acId ];
+    delete con;
+}

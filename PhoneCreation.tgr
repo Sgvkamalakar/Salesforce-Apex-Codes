@@ -1,0 +1,6 @@
+// Use case: If Account name is populated in the Contact object then Contact phone mumber should be same as that of Account phone number
+trigger PhoneCreation on Contact (before insert) {
+    if(trigger.isBefore && trigger.isInsert){
+        PhoneCreationHandler.fun(trigger.new);
+ }
+}
